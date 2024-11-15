@@ -34,7 +34,7 @@ class App extends React.Component<Props, GameState> {
     /**
      * state has type GameState as specified in the class inheritance.
      */
-    this.state = { cells: [] }
+    this.state = { cells: [], currPlayer: null, winner: -1 }
   }
 
   /**
@@ -45,7 +45,7 @@ class App extends React.Component<Props, GameState> {
   newGame = async () => {
     const response = await fetch('/newgame');
     const json = await response.json();
-    this.setState({ cells: json['cells'] });
+    this.setState({ cells: json['cells'], currPlayer: json['currPlayer'], winner: json['winner'] });
   }
 
   /**
@@ -61,7 +61,19 @@ class App extends React.Component<Props, GameState> {
       e.preventDefault();
       const response = await fetch(`/play?x=${x}&y=${y}`)
       const json = await response.json();
-      this.setState({ cells: json['cells'] });
+      this.setState({ cells: json['cells'], currPlayer: json['currPlayer'], winner: json['winner'] });
+    }
+  }
+
+  /**
+   * undo an operation
+   */
+  undo(): React.MouseEventHandler {
+    return async (e) => {
+      e.preventDefault()
+      const response = await fetch('/undo')
+      const json = await response.json();
+      this.setState({ cells: json['cells'], currPlayer: json['currPlayer'], winner: json['winner'] });
     }
   }
 
@@ -115,13 +127,15 @@ class App extends React.Component<Props, GameState> {
      */
     return (
       <div>
+        <div id='instructions'>
+          {this.state.winner === -1 ? `Current Turn: ${this.state.currPlayer ? "Player1" : "Player0"}` : `Winner: ${this.state.winner ? "Player1" : "Player0"}`}
+        </div>
         <div id="board">
           {this.state.cells.map((cell, i) => this.createCell(cell, i))}
         </div>
         <div id="bottombar">
           <button onClick={/* get the function, not call the function */this.newGame}>New Game</button>
-          {/* Exercise: implement Undo function */}
-          <button>Undo</button>
+          <button onClick={this.undo()}>Undo</button>
         </div>
       </div>
     );

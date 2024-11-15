@@ -1,17 +1,20 @@
 #board {
   display: grid;
   grid-template-columns: auto auto auto;
-  background-color: #2196F3;
+  background-color: #F9F5E3;
   padding: 10px
 }
 
 .cell {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  background-color: #EF798A;
+  border: 1px solid #a6a09c;
   padding: 20px;
   font-size: 30px;
   height: 25vmin;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #bottombar {
@@ -20,11 +23,14 @@
 
 #instructions {
   height: 5vh;
-  background-color: white;
+  background-color: #F9EBE0;
   padding: 0px;
   margin: 0px;
   text-align: center;
-  border: 1px solid black;
+  border: 1px solid #aba097;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #bottombar button {
@@ -44,4 +50,9 @@ body {
   padding: 0;
 }
 
-.playable { background-color: red;}
+.playable { background-color: #CCF5AC;}
+
+.playable:hover {
+  background-color: rgba(18, 193, 175, 0.8); /* Highlight color */
+  cursor: pointer; /* Pointer cursor on hover */
+}
